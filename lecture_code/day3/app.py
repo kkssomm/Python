@@ -18,21 +18,31 @@ def greeting(name):
 
 @app.route('/cube/<int:num>')
 def cube(num):
-    result = num**3 #num*num*num
-    return f'{num}의 세제곱은 {result}'
+    result = num**3 # num*num*num
+    return f'{num}의 세제곱은 {result}입니다.'
 
 @app.route("/dinner/<int:person>")
 def dinner(person):
     menu = ['짜장면','짬뽕','볶음밥','고추잡채밥','마파두부밥']
-    order = random.sample(menu,k=person)
+    order = random.sample(menu, k=person)
     return str(order)
+
+@app.route("/lotto")
+def lotto():
+    nums = range(1,46)
+    lotto = random.sample(nums, k=6)
+    return str(lotto)
+
+@app.route("/html")
+def html():
+    return "<h1> This is HTML h1 tag! </h1>"
 
 @app.route("/d_day")
 def d_day():
-    today = datetime.datetime.now()
-    finish = datetime.datetime(2019,11,27)
+    today = datetime.now()
+    finish = datetime(2019,11,27)
     remain = finish - today
-    return f'끝나는 날까지 {remain}일 남았다'
+    return f'우리가 같이 있을 수 있는 시간이 이제 {remain}일 밖에 안남았어..ㅠㅠ'
 
 @app.route("/naver")
 def naver():
@@ -57,12 +67,13 @@ def pong():
     age = request.args.get('age')
     return render_template('pong.html', name=name, age=age)
 
-@app.route('/ping2')
-def ping2():
-    return render_template('ping2.html')
+@app.route('/name')
+def name():
+    return render_template('name.html')
 
-@app.route('/pong2')
-def pong2():
+@app.route('/god')
+def god():
     name = request.args.get('name')
-    stats = ['천사','순수','성실','건전','정상']
-    return render_template('pong2.html',name=name,stats=random.sample(stats,1))
+    source = ['냉정','열정','잘생김','못생김','매력','시크','섹시']
+    style = random.sample(source, 3)
+    return render_template('god.html', name=name, style=style)

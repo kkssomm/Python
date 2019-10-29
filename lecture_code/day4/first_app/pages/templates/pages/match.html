@@ -7,9 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>로또 추천</h1>
-    {% for num in lotto %}
-        <p>{{ num }}</p>
-    {% endfor %}
+    <h1>{{ me }}님과 {{ you }}님의 궁합은 {{ chemi }}% 입니다.</h1>
+
+    <h2>request 객체 살펴보기</h2>
+    {{ test }}
+    
+    {{ request.method }}
 </body>
 </html>
