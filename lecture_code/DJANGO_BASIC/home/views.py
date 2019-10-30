@@ -1,8 +1,8 @@
 from django.shortcuts import render, HttpResponse
 import random
 import requests # pip install requests
-from pprint import pprint as pp
 from datetime import datetime
+from pprint import pprint as pp
 
 def index(request):
     # return HttpResponse('Welcome to Django')
@@ -41,7 +41,7 @@ def lotto(request):
         my_lotto = random.sample(range(1,46),6)
         match = set(my_lotto) & set(winner)
         rank = len(match)
-    return render(request, 'lotto.html', {'cnt':cnt, 'winner':winner, 'my_lotto':my_lotto})
+    return render(request, 'home/lotto.html', {'cnt':cnt, 'winner':winner, 'my_lotto':my_lotto})
 # return HttpResponse(f'오늘의 로또 추천번호는 {my_lotto}입니다.')
 
 # Variable Routing
@@ -56,54 +56,69 @@ def square(request, width, height):
     sq = width * height
     return render(request, 'home/square.html', {'width':width, 'height':height, 'sq':sq})
 
-def menu(request):
-    menus = ['아메리카노','라떼','카푸치노','모카','카라멜마끼아또']
-    cafes = []
-    my_sentence = []
+def template_language(request):
+    menus = ['아메리카노','카페라떼','마끼아또','루이보스','프라푸치노']
+    cafes = ['starbucks','coffeebean','hollys','ediya']
+    my_sentence = 'Life is short, you need Python'
+    datetimenow = datetime.now()
     empty_list = []
     context = {
-        'menus' : menus,
+        'menus':menus,
         'cafes':cafes,
         'my_sentence':my_sentence,
         'empty_list':empty_list,
-
+        'datetimenow':datetimenow,
     }
-    return render(request,'home/template_language.html',context)
+    return render(request, 'home/template_language.html', context)
 
 def image(request):
-    return render(request,'home/image.html')
+    return render(request, 'home/image.html')
 
 def isbirth(request):
     today = datetime.now()
     if today.month == 6 and today.day == 27:
         result = True
-    else :
+    else:
         result = False
-    return render(request, 'home/isbirth.html',{'result':result})
+    return render(request, 'home/isbirth.html', {'result':result})
 
-##글자의 순서를 뒤집어도 원래의 글자가 되는 글자가 입력되면 회문이라고 표시, 아니며 아님 표시
-def ispal(request,word):
-    check = True
+# 글자의 순서를 뒤집어도 원래의 글자가 되는 글자가 입력되면
+# '회문' 이라고 표시하고, 아니면 아니라고 표시하는 페이지 만들어 보세요
+def ispal(request, word):
     if word == word[::-1]:
-        check = True
-    else :
-        check = False
-    render(request,'ispal.html',{'check':check})
+        result = True
+    else:
+        result = False
+    return render(request, 'home/ispal.html', {'word':word, 'result':result})
+
+# GET / POST
 
 def throw(request):
     return render(request, 'home/throw.html')
 
 def catch(request):
     message = request.GET.get('message')
-    return render(request,'home/catch.html',{'message':message})
+    message2 = request.GET.get('message2')
+    return render(request, 'home/catch.html', {'message':message, 'message2':message2})
+
+def word(request):
+    return render(request, 'home/word.html')
+
+def palin(request):
+    drome = request.GET.get('input_word')
+    if drome == drome[::-1]:
+        result = True
+    else:
+        result = False
+    return render(request, 'home/palin.html', {'drome':drome, 'result':result})
 
 def user_new(request):
     return render(request, 'home/user_new.html')
 
 def user_create(request):
-    user_name= request.POST.get('name')
+    user_name = request.POST.get('name')
     user_password = request.POST.get('pwd')
-    return render(request,'home/user_create.html',{'user_name':user_name,'user_password':user_password})
+    return render(request, 'home/user_create.html', {'user_name':user_name, 'user_password':user_password})
 
 def static_example(request):
-    return render(request,'home/static_example.html')
+    return render(request, 'home/static_example.html')

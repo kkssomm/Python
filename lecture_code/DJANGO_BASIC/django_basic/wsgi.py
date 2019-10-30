@@ -1,5 +1,5 @@
 """
-WSGI config for django_basic project.
+WSGI config for first_app project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

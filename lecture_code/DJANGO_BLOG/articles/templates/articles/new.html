@@ -1,0 +1,14 @@
+{% extends 'articles/base.html' %}
+
+{% block title %} NEW {% endblock %}
+{% block body %}
+    <h1 class = 'text-center'>NEW</h1>
+    <form action = "/articles/create/" method="POST">
+        {% csrf_token %}
+        제목 : <input type = "text" name= "title"><br>
+        내용 : <textarea name="content" id = "" cols="30" row="30"></textarea><br>
+        <input type="submit">
+    </form>
+    <hr>
+    <a href="/articles/">뒤로가기</a>
+{% endblock %}
