@@ -1,0 +1,16 @@
+{% extends 'students/base.html' %}
+
+{% block title %}CRUD{% endblock %}
+{% block body %}
+    <!-- <a href="{% url 'articles:new' %}">[새글 작성]</a> -->
+    <hr>
+    {% if students %}
+        <ul>
+        {% for student in students %}
+            <li><a href = "/students/{{ student.id }}/">{{ student.name}}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No students are available.</p>
+    {% endif %}
+{% endblock %}

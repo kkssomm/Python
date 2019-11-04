@@ -1,0 +1,19 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+<h1 class='text-center'>EDIT</h1>
+<div class='container'>
+    <form action="{% url 'movies:update' movie.pk %}" method="POST">
+            {% csrf_token %}
+        영화 :<input type="text" name = "title" value="{{ movie.title }}"><br>
+        영문 :<input type="text" name ="title_en" value="{{ movie.title_en }}"><br>
+        관객 :<input type="number" name="audience" value="{{ movie.audience }}"><br>
+        개봉 : <input type="date" name="open_date" value="{{ movie.open_date }}"><br>
+        장르 : <input type="text" name="genre" value="{{ movie.genre }}"><br>
+        등급 : <input type="text" name="watch_grade" value="{{ movie.watch_grade }}"><br>
+        평점 : <input type="number" name="score" value="{{ movie.score }}"><br>
+        포스터 : <input type="text" name ="poster_url" value="{{ movie.poster_url }}"><br>
+        소개 : <textarea name="description" value="{{ description }}"></textarea><br>
+        <button type="submit">입력</button><br>
+    </form>
+</div>
+{% endblock %}
