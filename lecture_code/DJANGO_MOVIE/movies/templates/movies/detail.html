@@ -1,0 +1,53 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+<h1 class='text-center'>MOVIE DETAIL</h1>
+<hr>
+<table class="table table-bordered">
+        <tr>
+            <th width="20%" scope="row">제목</th>
+            <td>{{movie.title}}</td>
+        </tr>
+        <tr>
+                <th width="20%" scope="row">포스터</th>
+            <td><img src="{{ movie.poster_url }}"></td>
+        </tr>
+        <tr>
+                <th width="20%" scope="row">누적 관객 수</th>
+            <td>{{movie.audience}}</td>
+        </tr>
+        <tr>
+                <th width="20%" scope="row">영화 소개</th>
+            <td>{{movie.description}}</td>
+        </tr>
+        <tr>
+                <th width="20%" scope="row">장르</th>
+            <td>{{movie.genre_id}}</td>
+        </tr>
+</table>
+
+    <a href="{% url 'movies:index' %}"><button class='btn btn-primary' style='display:inline;'>뒤로가기</button></a>
+    <form action="{% url 'movies:delete' movie.pk %}" method='POST' style='display:inline;'>
+    {% csrf_token %}
+    <button class='btn btn-danger'>삭제하기</button>
+    </form> 
+    <a href="{% url 'movies:edit' movie.pk %}"><button class='btn btn-warning'>수정하기</button></a>
+    <hr>
+    <form action="{% url 'movies:score_new' movie.pk %}">
+        {% csrf_token %}
+        한줄평 : <input type="text" name='content'>
+        평점 : <input type="number" name='score'>
+        <button class ='btn btn-success'>입력</button>
+    </form>
+    <hr>
+    <h3>한줄평</h3><br>
+    {% for score in scores %}
+    <ul>
+        <li>한줄평:{{ score }} / 평점 : {{ score.score }}</li>
+            <form action="{% url 'movies:score_delete' movie.pk score.pk %}" method='POST' style="display:inline;">
+                {% csrf_token %}
+                <button class='btn btn-warning btn-small'></button>
+            </form>
+    </ul>
+    {% endfor %}
+    {% endblock %}
+    

@@ -1,8 +1,15 @@
 {% extends 'articles/base.html' %}
+{% load static %}
 
 {% block title %}CRUD{% endblock %}
 {% block body %}
+<img src="{% static 'images/sky.jpg' %}" alt="sample" width='1000px' height='200px'><br>
+<br>    
+{% if user.is_authenticated %}
     <a href="{% url 'articles:create' %}">[새글 작성]</a>
+    {% else %}
+    <a href="{% url 'accounts:login' %}">새 글을 작성하려면 로그인 하세요.</a>
+    {% endif %}
     <hr>
     {% for article in articles %}
     <p>No.{{ article.pk }}</p>

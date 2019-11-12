@@ -1,0 +1,31 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+<h1 class='text-center'>MOVIE DETAIL</h1>
+<hr>
+<form action="" method="POST">
+        {% csrf_token %}
+<table class="table table-bordered">
+        <tr>
+            <th width="20%" scope="row">제목</th>
+            <td><input type="text" name = "title" value="{{ movie.title }}"></td>
+        </tr>
+        <tr>
+                <th width="20%" scope="row">포스터</th>
+            <td><input type="text" name='poster_url' value="{{ movie.poster_url }}"></td>
+        </tr>
+        <tr>
+                <th width="20%" scope="row">누적 관객 수</th>
+            <td><input type="number" name = "audience" value="{{ movie.audience }}"></td>
+        </tr>
+        <tr>
+                <th width="20%" scope="row">영화 소개</th>
+            <td><textarea name="description" id="" cols="30" rows="10">{{ movie.description }}</textarea></td>
+        </tr>
+        <tr>
+                <th width="20%" scope="row">장르</th>
+            <td>{{movie.genre_id}}</td>
+        </tr>
+</table>
+<button class='btn btn-info'>수정</button>
+</form>
+    {% endblock %}

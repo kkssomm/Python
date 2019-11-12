@@ -1,0 +1,9 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+<h1 class='text-center'>MOVIE INDEX</h1>
+<hr>
+{% for movie in movies %}
+    <p> <a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a></p>
+    <img src="{{movie.poster_url}}"></p>
+{% endfor %}
+{% endblock %}
