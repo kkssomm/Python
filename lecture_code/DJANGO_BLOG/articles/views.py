@@ -4,6 +4,7 @@ from .form import ArticleForm, CommentForm
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
+
 ### CRUD
 
 # Create your views here.
@@ -15,6 +16,7 @@ def index(request):
 # def new(request):
 #     return render(request, 'articles/new.html')
 
+@login_required
 def create(request):
     # # 1
     # article = Article()
@@ -39,7 +41,9 @@ def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
-            article = form.save()
+            article = form.save(commit=False)
+            article.user = request.user
+            article.save()
             return redirect('articles:detail',article.id)
         # title = request.POST.get('title')
         # content = request.POST.get('content')
@@ -71,19 +75,19 @@ def delete(request, article_id):
 @login_required
 def update(request, article_id):
     article = Article.objects.get(pk=article_id)
-    if request.method =='POST':
-        form = ArticleForm(request.POST, instance = article)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES, instance=article)
         if form.is_valid():
             article = form.save()
-            return redirect('articles:detail',article.id)
+            return redirect('articles:detail', article.id)
         # article.title = request.POST.get('title')
         # article.content = request.POST.get('content')
         # article.image = request.FILES.get('image')
         # article.save()
-        # return redirect('articles:detail',article.pk)
+        # return redirect('articles:detail', article.pk)
     else:
-        form = ArticleForm(instance = article)
-        return render(request, 'articles/form.html',{'article':article,'form':form})
+        form = ArticleForm(instance=article)
+        return render(request, 'articles/form.html', {'form':form, 'article':article})
 
 
 

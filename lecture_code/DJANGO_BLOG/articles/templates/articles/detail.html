@@ -17,14 +17,16 @@
     <p>작성 시간 : {{ article.created_at }}</p>
     <p>수정 시간 : {{ article.updated_at }}</p>
     <hr>
+    {% if user.is_authenticated %}
     <form action="{% url 'articles:comment_create' article.id %}" method='POST'>
         {% csrf_token %}
         {% bootstrap_form comment_form layout='horizontal' %}
         {% bootstrap_button '등록' button_class='btn btn-warning' %}
-        <!-- 댓글 입력 : <input type="text" name = 'content'>
-        <input type="submit" value='입력'> -->
     </form>
-    <hr>
+    {% else %}
+      <a href="{% url 'accounts:login' %}"><button class='btn btn-warning'>댓글을 작성하려면 로그인 하세요.</button></a>
+    {% endif %}
+      <hr>
     <h3>댓글 목록 | 현재 댓글 수 : {{ comments|length }}</h3>
     {% for comment in comments %}
     <ul>
@@ -40,11 +42,15 @@
     <p>댓글이 아직 없습니다.</p>
     {% endfor %}
     <hr>
+    {% if article.user == request.user %}
     <form action="{% url 'articles:delete' article.pk %}" onclick="return confirm('R U Sure..?')" method = 'POST' style="display:inline;">
-    <button class="btn btn-danger" style="display:inline;">삭제</button>
-    {% csrf_token %}
-    </form>
-    <a href="{% url 'articles:update' article.pk %}" class ="btn btn-primary" style="display:inline;">수정</a>
-    <!-- <a href="{% url 'articles:delete' article.pk %}">[DELETE]</a><br> -->
+        <button class="btn btn-danger" style="display:inline;">삭제</button>
+        {% csrf_token %}
+        </form>
+        <a href="{% url 'articles:update' article.pk %}" class ="btn btn-primary" style="display:inline;">수정</a>
+        <!-- <a href="{% url 'articles:delete' article.pk %}">[DELETE]</a><br> -->
+        <a href="{% url 'articles:index' %}" class="btn btn-info" style="display:inline;">목록보기</a>
+    {% else %}
     <a href="{% url 'articles:index' %}" class="btn btn-info" style="display:inline;">목록보기</a>
+    {% endif %}
 {% endblock %}
