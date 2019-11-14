@@ -99,9 +99,11 @@ def comment_create(request,article_id):
     article = Article.objects.get(pk=article_id)
     comment_form = CommentForm(request.POST)
     # if request.method == 'POST':
-    comment = comment_form.save(commit=False)
-    comment.article = article
-    comment.save()
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.article = article
+        comment.user = request.user
+        comment.save()
     return redirect('articles:detail',article.id)
         # comment = Comment()
         # comment.content = request.POST.get('content')
@@ -119,3 +121,4 @@ def comment_delete(request,article_id,comment_id):
     comment = Comment.objects.get(pk=comment_id)
     comment.delete()
     return redirect('articles:detail',article_id)
+

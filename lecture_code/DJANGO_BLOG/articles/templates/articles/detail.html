@@ -8,6 +8,7 @@
     <h2>{{ article.pk }}번 글</h2>
     <hr>
     <p>제목 : {{ article.title }}</p>
+    <p>작성자 : {{ article.user  }}</p>
     <p>내용 : {{ article.content }}</p>
         {% if article.image %}
             <p>이미지 : <img src="{{ article.image.url }}" alt="{{ article.image }}"></p>
@@ -32,10 +33,12 @@
     <ul>
         <li>
             {{ comment.content }} 
+            {% if user == comment.user %}
             <form action="{% url 'articles:comment_delete' article.id comment.id %}" style="display:inline;" method="POST">
                 {% csrf_token %}
                 <button class='btn btn-warning btn-sm'>삭제</button>
             </form>
+            {% endif %}
         </li>
     </ul>
     {% empty %}
