@@ -10,12 +10,15 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True) 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(blank=True)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_articles', blank=True)
+
     # image = ProcessedImageField(
         # upload_to = 'articles/images',      # 저장 위치(MEDIA_ROOT/articles/image)
         # processors = [Thumbnail(200,300)],  # 처리할 작업 목록
         # format = 'JPG',                     # 저장포맷
         # options = {'quality':90},           # 추가옵션
     # 
+    
     def __str__(self):
         return f'{self.id}번 글 - {self.title} : {self.content}'
 

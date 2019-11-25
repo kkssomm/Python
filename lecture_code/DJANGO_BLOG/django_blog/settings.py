@@ -36,9 +36,16 @@ STATICFILES_DIRS = [    # 정적 파일이 위치한 경로
 MEDIA_URL = '/media/'   # STATIC_URL 과 비슷, 업로드된 파일의 주소(URL)을 만들어 줌(실제 이미지 파일이 업로드된 디렉토리를 의미하는 것은 아님)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    # STATICFILES_DIRS 동일한 기능, 정적 파일의 업로드가 끝나면 파일이 어디에 저장될 지를 설정하는 경로
 
+# 팔로워
+AUTH_USER_MODEL = 'accounts.User' # 기본값 : 'accounts.User'
+
+# 소셜로그인
+LOGIN_REDIRECT_URL = 'articles:index' # 기본값 : 'accounts/
+
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
     'movies',
     'jobs',
     'students',
@@ -49,12 +56,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',  
-    'accounts',
-    
+ 
     'django_extensions',
     'bootstrap4',
     'bootstrap_themes',
+    # 소셜 로그인
+    'django.contrib.sites',
+    'allauth',
+    'allauth.socialaccount',
+    'allauth.account',
+    'allauth.socialaccount.providers.kakao',
 ]
+
+# 소셜로그인
+SITE_ID = 1 # 사이트 아이디 기본값
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

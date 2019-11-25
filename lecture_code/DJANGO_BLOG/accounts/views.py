@@ -1,22 +1,23 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
-from .forms import UserCustomChangeForm
+from .forms import UserCustomChangeForm,UserCustomCreationForm
 from django.contrib.auth import update_session_auth_hash #자동로그아웃
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import get_user_model
 
 
 def signup(request):
     if request.user.is_authenticated:
         return redirect('articles:index')
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserCustomCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             auth_login(request,user)
             return redirect('articles:index')
     else:
-        form = UserCreationForm()
+        form = UserCustomCreationForm()
     return render(request,'accounts/auth_form.html',{'form':form})
 
 def login(request):
@@ -29,7 +30,7 @@ def login(request):
             return redirect('articles:index')
     else:
         form = AuthenticationForm()
-        return render(request, 'accounts/auth_form.html',{'form':form})
+        return render(request, 'accounts/login.html',{'form':form})
 
 def logout(request):
     if request.method=='POST':
@@ -43,7 +44,7 @@ def quit(request):
 
 def edit(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST, instance= request.user)
+        form = UserCustomCreationForm(request.POST, instance= request.user)
         if form.is_valid():
             form.save()
             return redirect('articles:index')
@@ -62,3 +63,8 @@ def change_password(request):
     else :
         form = PasswordChangeForm(request.user)
         return render(request, 'accounts/auth_form.html',{'form':form})
+
+def profile(request, username):
+    person = get_object_or_404(get_user_model(), username=username)
+    return render(request, 'accounts/profile.html',{'person':person})
+

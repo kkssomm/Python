@@ -1,0 +1,13 @@
+{% extends 'articles/base.html' %}
+{% load socialaccount %}
+{% load bootstrap4 %}
+{% block body %}
+<h1 class='text-center'>로그인</h1>
+
+<form action="" method='POST' style='display:inline'>
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+        {% bootstrap_button '로그인' button_class='btn btn-primary' %}
+</form>
+<a href="{% provider_login_url 'kakao' %}"><button class='btn btn-warning'>카카오 로그인</button></a>
+<a href="{% url 'articles:index' %}"><button class="btn btn-dark">취소</button></a>{% endblock %}

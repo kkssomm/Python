@@ -56,4 +56,7 @@
     {% else %}
     <a href="{% url 'articles:index' %}" class="btn btn-info" style="display:inline;">목록보기</a>
     {% endif %}
+    <hr>
+    {% include 'articles/_follow.html' %}
+<hr>	    <hr>
 {% endblock %}
